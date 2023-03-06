@@ -1,3 +1,5 @@
+# 알파벳 재정렬 문제 : 대문자는 오름차순으로 정렬하고, 숫자는 모두 더하기
+
 import string
 s=input()
 s=s.replace(' ', '')
