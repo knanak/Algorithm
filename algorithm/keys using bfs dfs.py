@@ -29,12 +29,12 @@ que = deque()
 
 
 def bfs(v):
-    que.append(v)
+    que.append(v)  # bfs만의 특징
     visited[v] = True
 
     while que:
-        n = que.popleft()
-        for i in rooms[n]:
+        n = que.popleft()  # bfs만의 특징
+        for i in rooms[n]:  # bfs만의 특징
             if not visited[i]:
                 que.append(i)
                 visited[i] = True
