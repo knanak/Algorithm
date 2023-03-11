@@ -39,7 +39,7 @@ def bfs(v):
                 que.append(i)
                 visited[i] = True
 
-    if False not in visited:
+    if all(visited):
         return True
     else:
         return False
