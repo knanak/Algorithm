@@ -19,3 +19,7 @@ import re
 re.sub('[aeiou]', '', list)
 
 #ⓑ반복문
+result = ''
+for i in list:
+    if not i in ['a', 'e', 'o', 'u', 'i']:
+        result += i
