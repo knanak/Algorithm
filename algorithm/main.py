@@ -1,25 +1,37 @@
-#살 수 있는 커피의 최대 갯수(몫)와 잔돈(나머지)
-money, price = (10000, 3000)
-a, b = divmod(money, price)
+# stack 2개를 이용해 queue만들기 : 선입선출
+class Queue(object):
+    def __init__(self):
+        self.inputstack = []
+        self.outputstack = []
 
-#7조각 피자를 n명이 먹으려면 몇 판 필요한가 : 필요한 피자의 갯수는 몫과 관련됨
-n = 100
-num = n // 7 + (1 if n % 7 else 0)
+    def input(self, element):
+        self.inputstack.append(element)
 
-#array의 중앙값 출력
-array = [2, 6, 9, 4, 3, 5, 7]
-array.sort()
-mid = len(array) // 2  ## array의 인덱싱이 0부터 시작하므로 len()+1 할 필요 없음
-mid = array[mid]
+    def output(self):
+        if not self.outputstack:
+            while self.inputstack:
+                self.outputstack.append(self.inputstack.pop())
+        return self.outputstack.pop()
 
-#모음 제거
-#ⓐ정규식
-import re
 
-re.sub('[aeiou]', '', list)
+# queue 2개를 이용해 stack 만들기 : top(마지막에 추가된 데이터)부터 출력
+import queue
+class Stack(object):
+  def __init__(self):
+    self.inQue = queue.Queue()
+    self.outQue = queue.Queue()
 
-#ⓑ반복문
-result = ''
-for i in list:
-    if not i in ['a', 'e', 'o', 'u', 'i']:
-        result += i
+  def input(self, element):
+    self.inQue.put(element)
+
+  def output(self):
+    while self.inQue.qsize() > 1 :
+      self.outQue.put(self.inQue.get())
+
+    temp=self.inQue
+    self.inQue = self.outQue
+    self.outQue = temp
+
+    return self.outQue.get()
+      
+      
