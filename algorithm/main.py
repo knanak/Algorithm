@@ -11,3 +11,11 @@ array = [2, 6, 9, 4, 3, 5, 7]
 array.sort()
 mid = len(array) // 2  ## array의 인덱싱이 0부터 시작하므로 len()+1 할 필요 없음
 mid = array[mid]
+
+#모음 제거
+#ⓐ정규식
+import re
+
+re.sub('[aeiou]', '', list)
+
+#ⓑ반복문
