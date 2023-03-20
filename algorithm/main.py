@@ -16,22 +16,22 @@ class Queue(object):
 
 # queue 2개를 이용해 stack 만들기 : top(마지막에 추가된 데이터)부터 출력
 import queue
+
+
 class Stack(object):
-  def __init__(self):
-    self.inQue = queue.Queue()
-    self.outQue = queue.Queue()
+    def __init__(self):
+        self.inQue = queue.Queue()
+        self.outQue = queue.Queue()
 
-  def input(self, element):
-    self.inQue.put(element)
+    def input(self, element):
+        self.inQue.put(element)
 
-  def output(self):
-    while self.inQue.qsize() > 1 :
-      self.outQue.put(self.inQue.get())
+    def output(self):
+        while self.inQue.qsize() > 1:
+            self.outQue.put(self.inQue.get())
 
-    temp=self.inQue
-    self.inQue = self.outQue
-    self.outQue = temp
+        temp = self.inQue
+        self.inQue = self.outQue
+        self.outQue = temp
 
-    return self.outQue.get()
-      
-      
+        return self.outQue.get()
