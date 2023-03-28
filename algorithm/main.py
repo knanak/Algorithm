@@ -30,7 +30,17 @@ def solution2(spell, dic):
 
 print(solution2(spell, dic))
 
+
 # 2. set() - set() : 차집합
+def solution3(spell, dic):
+
+    for i in dic:
+        if not set(i) - set(spell):
+            return 1
+    return 2
+
+
+print(solution3(spell, dic))
 
 # 2-1. list의 차집합
 x = [1, 2, 6, 5]
