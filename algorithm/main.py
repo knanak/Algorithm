@@ -24,7 +24,7 @@ def solution2(spell, dic):
     for i in new:
         if ''.join(i) in dic:
             return 1
-    ##else : return 2  for 반복문 안에서 return 2를 할 경우, 앞 부분에서 조건이 맞지 않으면 바로                      return 2를 출력해 전체 i를 확인할 수 없다.
+    ##else : return 2  for 반복문 안에서 return 2를 할 경우, 앞 부분에서 조건이 맞지 않으면 바로 return 2를 출력해 전체 i를 확인할 수 없다.
     return 2  ## for 반복문을 모두 확인한 후에 조건에 충족하지 않는다면 return 2
 
 
