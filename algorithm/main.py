@@ -1,30 +1,43 @@
-# 암호해독문제. code의 n의 배수번째 오는 문자가 암호
-list = "dfjardstddetckdaccccdegk"
-num = 4
-
-
-# 1. ranage(시작, 끝, 간격)
-def solution(cipher, code):
+# 외계 행성의 나이 : 각 자릿수 분리하기 : str()
+def solution(age):
+    a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+    num = list(map(int, str(age)))
     result = ''
-    for i in range(code, len(cipher) + 1, code):
-        result += cipher[i - 1]
+
+    for i in num:
+        result += a[i]
     return result
 
 
-# 2. list[시작:끝:간격]
-def solution2(cipher, code):
-    return cipher[code - 1::code]
+print(solution(23))
+
+# 외계어 사전
+spell = ["z", "d", "x"]
+dic = ["def", "dww", "dzx", "loveaw"]
+
+# 1. 순열
+from itertools import permutations
 
 
-# 3. 나머지 : 배수관계인 경우, 나머지가 0
-def solution3(cipher, code):
-    result = ''
-    for i in range(code, len(cipher) + 1):
-        if i % code == 0:
-            result += cipher[i - 1]
-    return result
+def solution2(spell, dic):
+    new = list(permutations(spell, len(spell)))
+    for i in new:
+        if ''.join(i) in dic:
+            return 1
+    ##else : return 2  for 반복문 안에서 return 2를 할 경우, 앞 부분에서 조건이 맞지 않으면 바로                      return 2를 출력해 전체 i를 확인할 수 없다.
+    return 2  ## for 반복문을 모두 확인한 후에 조건에 충족하지 않는다면 return 2
 
 
-solution(list, num)
-solution2(list, num)
-solution3(list, num)
+print(solution2(spell, dic))
+
+# 2. set() - set() : 차집합
+
+# 2-1. list의 차집합
+x = [1, 2, 6, 5]
+y = [1, 2, 3, 4]
+xy = []
+for i in x:
+    if i not in y:
+        xy.append(i)
+
+print(xy)
