@@ -1,26 +1,24 @@
-# 진료순서 정하기 : 응급도
-e = [4, 1, 3]
-# 1. list.index()와 sorted() : o(n), o(n logn)
+# 문자열 정렬 : 소문자로 변환한 후, 오름차순(abc~)
+s = "heLLo"
 
 
-def solution(e):
-    num = sorted(e, reverse=True)
-    new = []
-    for i in e:
-        new.append(num.index(i) + 1)
-    return new
+#1. 대문자/소문자 변환, sorted() : 문자열정렬, return
+def solution(s):
+    so = sorted(s.lower())
+    return ''.join(so)
 
 
-print(solution(e))
-
-#1-1. 리스트 안에서 반복문 돌리기
-
-
-def solution2(e):
-    num = sorted(e, reverse=True)
-    return [num.index(i) + 1 for i in e]
+print(solution(s))
+#2. 아스키코드로 변환 : ord('문자'), chr(숫자)
+# ord('A')==65, ord('Z')==90,  A-a 차이는 32
+# ord('a')==97, ord('z')==122, a-z 차이는 25
 
 
-print(solution2(e))
+def solution2(s):
+    for i in s:
+        if ord('A') <= ord(i) <= ord('Z'):
+            s = s.replace(i, chr(ord(i) + 32))
+    return ''.join(sorted(s))
 
-# 2. dict
+
+print(solution2(s))
