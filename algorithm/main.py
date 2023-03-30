@@ -1,24 +1,25 @@
-# 문자열 정렬 : 소문자로 변환한 후, 오름차순(abc~)
-s = "heLLo"
+# a를 정렬해서 b로 만들수 있는가
+
+b = "allpe"
+a = "apple"
 
 
-#1. 대문자/소문자 변환, sorted() : 문자열정렬, return
-def solution(s):
-    so = sorted(s.lower())
-    return ''.join(so)
+# 1. sorted()
+def solution(b, a):
+    return 1 if sorted(b) == sorted(a) else 0
 
 
-print(solution(s))
-#2. 아스키코드로 변환 : ord('문자'), chr(숫자)
-# ord('A')==65, ord('Z')==90,  A-a 차이는 32
-# ord('a')==97, ord('z')==122, a-z 차이는 25
+print(solution(b, a))
 
 
-def solution2(s):
-    for i in s:
-        if ord('A') <= ord(i) <= ord('Z'):
-            s = s.replace(i, chr(ord(i) + 32))
-    return ''.join(sorted(s))
+#2. str.replace('-를', '-로', 몇번 변경)
+def solution2(b, a):
+    for i in b:
+        if i in a:
+            a = a.replace(i, '', 1)
+            if len(a) == 0:
+                return 1
+    return 0
 
 
-print(solution2(s))
+print(solution2(b, a))
