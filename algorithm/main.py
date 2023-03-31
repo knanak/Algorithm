@@ -1,25 +1,25 @@
-# a를 정렬해서 b로 만들수 있는가
-
-b = "allpe"
-a = "apple"
-
-
-# 1. sorted()
-def solution(b, a):
-    return 1 if sorted(b) == sorted(a) else 0
+# n개씩 끊어 2차원의 list로 만들기
+l = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+n = 3
 
 
-print(solution(b, a))
+# 1. range(시작, 끝, 간격)
+def solution(l, n):
+    a = []
+    for i in range(0, len(l), n):
+        a.append(l[i:i + n])
+    return a
 
 
-#2. str.replace('-를', '-로', 몇번 변경)
-def solution2(b, a):
-    for i in b:
-        if i in a:
-            a = a.replace(i, '', 1)
-            if len(a) == 0:
-                return 1
-    return 0
+print(solution(l, n))
+
+# 2. numpy
+import numpy as np
 
 
-print(solution2(b, a))
+def solution2(l, n):
+    new = np.reshape(l, (-1, n))
+    return new.tolist()
+
+
+print(solution2(l, n))
