@@ -1,25 +1,58 @@
-# n개씩 끊어 2차원의 list로 만들기
-l = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-n = 3
+# 알파벳str을 int로 변경
+n = "onetwothreefourfivesixseveneightnine"
 
 
-# 1. range(시작, 끝, 간격)
-def solution(l, n):
-    a = []
-    for i in range(0, len(l), n):
-        a.append(l[i:i + n])
-    return a
+#1. list.replace('-를', '-로')와 enumerate()
+def solution(n):
+    ch = [
+        'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
+        'nine'
+    ]
+    for idx, i in enumerate(ch):
+        n = n.replace(i, str(idx))
+    return int(n)
 
 
-print(solution(l, n))
-
-# 2. numpy
-import numpy as np
+print(solution(n))
 
 
-def solution2(l, n):
-    new = np.reshape(l, (-1, n))
-    return new.tolist()
+#1-1. list.replace('-를', '-로')와 list
+def solution2(n):
+    ch = [
+        'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
+        'nine'
+    ]
+    for i in range(len(ch)):
+        n = n.replace(ch[i], str(i))
+    return int(n)
 
 
-print(solution2(l, n))
+print(solution2(n))
+
+
+#2, list(dic.keys())
+def solution3(numbers):
+    dic = {
+        "zero": 0,
+        "one": 1,
+        "two": 2,
+        "three": 3,
+        "four": 4,
+        "five": 5,
+        "six": 6,
+        "seven": 7,
+        "eight": 8,
+        "nine": 9
+    }
+
+    new = ''
+    result = ''
+    for i in numbers:
+        new += i
+        if new in list(dic.keys()):
+            result += str(dic[new])
+            new = ''
+    return int(result)
+
+
+print(solution3(n))
