@@ -1,58 +1,31 @@
-# 알파벳str을 int로 변경
-n = "onetwothreefourfivesixseveneightnine"
+# 중복된 숫자 갯수
+arr = [1, 1, 1, 2, 3, 4, 5]
+n = 1
 
 
-#1. list.replace('-를', '-로')와 enumerate()
-def solution(n):
-    ch = [
-        'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
-        'nine'
-    ]
-    for idx, i in enumerate(ch):
-        n = n.replace(i, str(idx))
-    return int(n)
+# 1. 반복문
+def solution(arr, n):
+    count = 0
+    for i in arr:
+        if i == n:
+            count += 1
+    return count
 
 
-print(solution(n))
+print(solution(arr, n))
 
 
-#1-1. list.replace('-를', '-로')와 list
-def solution2(n):
-    ch = [
-        'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
-        'nine'
-    ]
-    for i in range(len(ch)):
-        n = n.replace(ch[i], str(i))
-    return int(n)
+# 2. sum(iterable)
+def solution2(arr, n):
+    return sum(1 for i in arr if i == n)
 
 
-print(solution2(n))
+print(solution2(arr, n))
 
 
-#2, list(dic.keys())
-def solution3(numbers):
-    dic = {
-        "zero": 0,
-        "one": 1,
-        "two": 2,
-        "three": 3,
-        "four": 4,
-        "five": 5,
-        "six": 6,
-        "seven": 7,
-        "eight": 8,
-        "nine": 9
-    }
-
-    new = ''
-    result = ''
-    for i in numbers:
-        new += i
-        if new in list(dic.keys()):
-            result += str(dic[new])
-            new = ''
-    return int(result)
+# 3. list.count()
+def solution3(arr, n):
+    return arr.count(n)
 
 
-print(solution3(n))
+print(solution3(arr, n))
