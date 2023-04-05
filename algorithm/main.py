@@ -1,55 +1,33 @@
-# 7의 갯수 : list를 str으로 변경해서 count()하기
-arr = [7, 77, 17]
+# 컨트롤 Z : Z가 나오면 이전 요소를 빼준다.
+s = "10 Z 20 Z 1"
 
 
-# 1. 이중 반복문 : for in
-def solution(arr):
-    chr = []
-    for i in arr:
-        chr.append(str(i))
-
+#1. 단순히 빼주기
+def solution(s):
+    s = s.split()
     result = 0
-    for i in chr:
-        for j in i:
-            if j == '7':
-                result += 1
+    for i in range(len(s)):
+        if s[i] == 'Z':
+            result -= int(s[i - 1])
+        else:
+            result += int(s[i])
     return result
 
 
-print(solution(arr))
+print(solution(s))
 
 
-# 2. list/str.count(값)
-def solution2(arr):
-    chr = ''
-    for i in arr:
-        chr += str(i)
-    return chr.count('7')
+#2. stack 이용하기 : 최근값을 빼줌
+def solution1(s):
+    stack = []
+    for i in s.split():
+        if i == 'Z':
+            if stack:
+                stack.pop()
+        else:
+            stack.append(int(i))
+
+    return sum(stack)
 
 
-print(solution2(arr))
-
-
-## list를 string으로 변경하는 방법
-## 1. ''.join(list)
-def solution3(arr):
-    return ''.join(map(str, arr)).count('7')
-
-
-print(solution3(arr))
-
-
-## 2. str(list)
-def solution4(arr):
-    return str(arr).count('7')
-
-
-print(solution4(arr))
-
-
-## 4. 반복문
-def solution5(arr):
-    return sum([str(i).count('7') for i in arr])
-
-
-print(solution5(arr))
+print(solution1(s))
