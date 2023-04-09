@@ -31,10 +31,10 @@ print(solution2(n))
 
 # 3. 재귀함수
 def fact(n):
-    if n > 1:
+    while n > 1:
         return n * factorial(n - 1)
-    else:
-        return 1
+       
+    return 1
 
 
 def solution3(n):
