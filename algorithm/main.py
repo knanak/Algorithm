@@ -1,61 +1,39 @@
-# 팩토리얼 : i! <= n일때, i의 최대값 구하기
-n = 3628800
+# 삼각형 완성 조건 : 가장 긴 변 < 다른 두 변의 합
+sides = [1, 2]  ## 답 1
 
 
-# 1. 반복문으로 곱해주기
-def solution(n):
-    answer = 1
-    for i in range(2, 11):
-        answer *= i  # answer < n이면, 계속 곱해주기
-        if answer > n:
-            return i - 1
-        elif answer == n:
-            return i
+# 1. range()
+def solution(sides):
+    result = 0
+    # sides 안에 가장 긴 변이 있는 경우
+    for i in range(1, max(sides)):
+        if i + min(sides) > max(sides):
+            result += 1
+
+    # sides 안에 가장 긴 변이 없는 경우
+    for i in range(max(sides), sum(sides)):
+        if sum(sides) > i:
+            result += 1
+
+    return result
 
 
-print(solution(n))
-
-# 2. 끝부터 빼주는 방식
-from math import factorial
+print(solution(sides))
 
 
-def solution2(n):
-    k = 10
-    while n < factorial(k):
-        k -= 1
-    return k  ## factorial(k) >= n이 될때 while문을 빠져나옴
+# 1-1. list compression
+def solution2(sides):
+    n1 = len([i for i in range(1, max(sides)) if i + min(sides) > max(sides)])
+    n2 = len([i for i in range(max(sides), sum(sides))])
+    return n1 + n2
 
 
-print(solution2(n))
+print(solution2(sides))
 
 
-# 3. 재귀함수
-def fact(n):
-    while n > 1:
-        return n * factorial(n - 1)
-       
-    return 1
+# 2. 공식
+def solution3(sides):
+    return 2 * min(sides) - 1
 
 
-def solution3(n):
-    k = 10
-    while n < fact(k):
-        k -= 1
-    return k  ## factorial(k) >= n이 될때 while문을 빠져나옴
-
-
-print(solution3(n))
-
-
-# 4. while과 +=으로 for 반복문 대신하기
-def solution4(n):
-    answer = 1
-    fact = 1
-    while fact <= n:
-        answer += 1
-        fact = fact * answer
-    answer = answer - 1
-    return answer
-
-
-print(solution4(n))
+print(solution3(sides))
