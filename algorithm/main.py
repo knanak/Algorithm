@@ -1,68 +1,42 @@
-# 캐릭터의 좌표
-keyinput = ["down", "down", "down", "down", "down"]
-board = [7, 9]
+# 연속된 num의 합 = total
+num = 5
+total = 5
 
-## 답 : [0, -4]
-
-
-# 1. 비교문
-def solution(keyinput, board):
-    x, y = 0, 0
-    for i in keyinput:
-        if -(board[1] // 2) < y < board[1] // 2:
-            if i == 'up':
-                y += 1
-
-            elif i == 'down':
-                y -= 1
-
-        if -(board[0] // 2) < x < board[0] // 2:
-            if x == 'right':
-                x += 1
-
-            elif i == 'left':
-                x -= 1
-
-    return [x, y]
+# 정답 : [-1, 0, 1, 2, 3]
 
 
-print(solution(keyinput, board))
+# 1. 중간값 이용 : 식 세우기, num//2를 통해 양쪽에 몇 개 있는지 알 수
+def solution(num, total):
+    if num % 2 == 1:
+        mid = total // num
+        return [i for i in range(mid - num // 2, mid + num // 2 + 1)]
+
+    else:
+        mid = total // num + 1
+        return [i for i in range(mid - num // 2, mid + num // 2)]
 
 
-# 2.
-def solution2(keyinput, board):
-    x, y = 0, 0
-    for i in keyinput:
-        if i == 'up':
-            y = min(y + 1, board[1] // 2)
-
-        elif i == 'down':
-            y = max(y - 1, -(board[1] // 2))
-
-        elif i == 'right':
-            x = min(x + 1, board[0] // 2)
-
-        elif i == 'left':
-            x = max(x - 1, -(board[0] // 2))
-
-    return [x, y]
+print(solution(num, total))
 
 
-print(solution2(keyinput, board))
+# 2. while, i+=1
+def solution2(num, total):
+    li = [i for i in range(-num - total, num + total + 1)]
+    i = 0
+    while sum(li[i:i + num]) != total:
+        i += 1
+    return li[i:i + num]
 
 
-# 3. dict
-def solution3(keyinput, board):
-    dict = {'up': [0, 1], 'down': [0, -1], 'right': [1, 0], 'left': [-1, 0]}
-    x, y = 0, 0
-
-    for i in keyinput:
-        dx, dy = dict[i]
-        if abs(x + dx) > board[0] // 2 or abs(y + dy) > board[1] // 2:
-            continue
-        else:
-            x, y = dx + x, dy + y
-    return [x, y]
+print(solution2(num, total))
 
 
-print(solution3(keyinput, board))
+# 3. for 반복문
+def solution3(num, total):
+    li = [i for i in range(-num - total, num + total + 1)]
+    for i in range(len(li)):
+        if sum(li[i:i + num]) == total:
+            return li[i:i + num]
+
+
+print(solution3(num, total))
