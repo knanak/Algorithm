@@ -1,79 +1,63 @@
-# 분수의 덧셈 : 약분은 최대공약수로
-numer1 = 1
-denom1 = 2
-numer2 = 3
-denom2 = 4
-# 답 : [5, 4]
-
-# 1. math.gcd(a,b)
-import math
+# 연속으로 중복된 숫자 제거하기
+arr = [1, 1, 3, 3, 0, 1, 1]  # 답 : [1,3,0,1]
 
 
-def solution(numer1, denom1, numer2, denom2):
-    n3 = numer1 * denom2 + denom1 * numer2
-    d3 = denom1 * denom2
-
-    nn3 = n3 // math.gcd(n3, d3)
-    dd3 = d3 // math.gcd(n3, d3)
-    return [nn3, dd3]
-
-
-print(solution(numer1, denom1, numer2, denom2))
+# 1. stack 이용
+def solution(arr):
+    result = []
+    for i in arr:
+        if result[-1:] != [i]:
+            result.append(i)
+    return result
 
 
-# 2. range(시작, 끝, 간격) : 특히 간격이 -인 경우, 거꾸로를 의미
-def gcd1(a, b):
-    for i in range(min(a, b), 0, -1):
-        if a % i == 0 and b % i == 0:
-            return i
+print(solution(arr))
 
 
-def solution2(numer1, denom1, numer2, denom2):
-    n3 = numer1 * denom2 + denom1 * numer2
-    d3 = denom1 * denom2
-
-    gcd = gcd1(n3, d3)
-    nn3 = n3 // gcd
-    dd3 = d3 // gcd
-
-    return [nn3, dd3]
-
-
-print(solution2(numer1, denom1, numer2, denom2))
-
-### 최소공배수
-a, b = 15, 10
-
-# 1. math.lcm(a,b)은 파이썬 3.9 이상의 버젼부터 사용가능
-
-
-# 2. range()
-def lcm(a, b):
-    for i in range(max(a, b), a * b + 1):
-        if i % a == 0 and i % b == 0:
-            return i
-
-
-print(lcm(a, b))
-
-### n의 약수
-n = 15
-
-# 1. 나머지가 0
-result = []
-for i in range(1, n + 1):
-    if n % i == 0:
+# 1-1. continue 이용 : 조건에 해당하는 경우, 건너뛰기
+def solution2(arr):
+    result = []
+    for i in arr:
+        if result[-1:] == [i]:
+            continue
         result.append(i)
-print(result)
+    return result
 
-# 2. 약수는 "짝"의 구조로 이뤄졌있다는 컨셉을 이용
 
-## k^2 = n인 경우, k가 중간지점이 되므로, range에도 동일한 구조를 적용
-result2 = []
-for i in range(1, int(n**0.5) + 1):
-    if n % i == 0:
-        result2.append(i)
-        if n // i != i:
-            result2.append(n // i)
+print(solution2(arr))
 
-print(sorted(result2))
+## 답은 맞았지만, 시간초과된 문제들 : 배열 arr의 크기 : 최대 10^6 까지 될 수므로, 시간복잡도가 n^2인 경우 시간초과됨. 따라서 전체를 비교하는 풀이가 아닌, 스택구조를 사용한 맨 마지막 값만을 비교해여 풀어야 함
+
+
+# 2. if not in 으로 비교
+def solution3(arr):
+    k = []
+    for i in range(len(arr) - 1):
+        if arr[i] == arr[i + 1]:  # 반복문, if문 비교자체로 n(n^2)
+            k.append(i)
+
+    m = []
+    for i in range(len(arr)):
+        if i not in k:
+            m.append(arr[i])
+    return m
+
+
+print(solution3(arr))
+
+
+# 2-1. stack.pop()으로 중복값 빼주기
+def solution4(arr):
+    k = []
+    for i in range(len(arr) - 1):
+        if arr[i] == arr[i + 1]:  # 반복문, if문 비교자체로 n(n^2)
+            k.append(i)
+
+    while k:
+        arr.pop(k[-1])
+        k.pop(-1)
+
+    return arr
+
+
+print(solution4(arr))
