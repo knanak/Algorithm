@@ -1,52 +1,57 @@
-# 배포순서와 개발속도를 고려하여 배포되는 숫자 구하기
-progresses = [95, 90, 99, 99, 80, 99]
-speeds = [1, 1, 1, 1, 1, 1]  # 정답 : [1, 3, 2]
-
-## (1) 현재까지 진행률과 개발속도를 고려해서 배포까지 남은 날짜 구하기
-
-## (2) 남은 날짜와 배포순서를 고려하여 배포하기. 배포순서를 고려하여 앞에서부터 처리되야 하기 때문에 que 자료구조를 사용하거나, list.pop(0)을 사용함
-
-# 1. math.ceil() 사용하여 남은 날짜 구하고, que 자료구조를 사용해 비교하기
-import queue
-import math
+# 올바른 괄호 ()일 경우, True
+s = "(())()"  # 정답 : 	true
 
 
-def solution(progresses, speeds):
-    q = queue.Queue()
-    for i in range(len(progresses)):
-        day = math.ceil((100 - progresses[i]) / speeds[i])
-        q.put(day)
+# 1. 반복문으로 할 경우, 시간초과 오류가 남 : len(s)가 10^5로 시간복잡도가 o(n^2)인 방법을 사용하면 안됨
+# (1) str = str.replace('-를 ', '-로')
+def solution(s):
+    while '()' in s:
+        s = s.replace(
+            '()', ''
+        )  # replace의 시간복잡도 : o(문자열의 길이 * (교체할 문자열의 길이 + 교체되는 문자열의 길이/교체할 문자열의 길이))
+    if s:
+        return False
+    return True
 
-    first = q.get()
-    result = [1]
-    for i in range(1, len(progresses)):
-        next = q.get()
-        if first >= next:
-            result[-1] += 1
+
+print(solution(s))
+
+
+# 2.
+# (2) stack 구조 이용하기
+def solution2(s):
+    stack = []
+    for i in s:
+        if i == '(':
+            stack.append(i)
         else:
-            result.append(1)
-            first = next
-    return result
+            if stack:
+                stack.pop()
+            else:
+                return False  # )이 남는 경우
+    if stack:
+        return False  # (이 남는 경우
+    return True
 
 
-print(solution(progresses, speeds))
+print(solution2(s))
 
 
-# 2. 인덱스와 뺄셈을 사용해서 몇개가 남았는지 구하기
-def solution2(progresses, speeds):
-    result = []
-    for i in range(len(progresses)):
-        result.append(math.ceil((100 - progresses[i]) / speeds[i]))
+# (3) '('와 ')'의 갯수를 비교하기. 짝이 맞으려면 총합이 0이 되어야
+def solution3(s):
+    result = 0
+    for i in s:
+        if i == '(':
+            result += 1
+        else:
+            if result > 0:
+                result -= 1
+            else:
+                return False  # )이 남는 경우
 
-    now = 0
-    answer = []
-    for i in range(1, len(progresses)):
-        if result[now] < result[i]:  # 현재보다 더 큰 수를 만나면, 배포
-            answer.append(i - now)
-            now = i
-    # 반복문 조건을 탈출한 경우(현재보다 작은수만 있을 때), now에서의 마지막 배포
-    answer.append(len(progresses) - now)
-    return answer
+    if result > 0:  # (이 남는 경우
+        return False
+    return True
 
 
-print(solution2(progresses, speeds))
+print(solution3(s))
