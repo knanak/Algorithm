@@ -17,7 +17,7 @@ def solution(s):
 print(solution(s))
 
 
-# 2.
+# 2. stack.append() 나 stack.pop()은 o(1)의 시간복잡도가 걸리므로 빠름
 # (2) stack 구조 이용하기
 def solution2(s):
     stack = []
@@ -55,3 +55,23 @@ def solution3(s):
 
 
 print(solution3(s))
+
+# (4) deque
+from collections import deque
+
+
+def solution4(s):
+    q = deque()
+    for i in s:
+        if i == '(':
+            q.append(i)
+        else:
+            if q:
+                q.popleft()
+            else:
+                return False
+
+    return len(q) == 0
+
+
+print(solution4(s))
