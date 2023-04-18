@@ -1,44 +1,57 @@
-# 주식가격 : 가격이 떨어지지 않는 동안의 기간 출력
-prices = [1, 2, 3, 2, 3]  ## 정답 : [4, 3, 1, 1, 0]
-# 1. deque
-from collections import deque
+# 카테고리별로 옷을 입어 위장할 수 있는 숫자
+c = [["yellow_hat", "headgear"], ["blue_sunglasses", "eyewear"],
+     ["green_turban", "headgear"]]
+## 답 : 5
+
+# 1. 딕셔너리 (hash table)
+dict = {}  # type별 갯수
 
 
-def solution(prices):
-    q = deque(prices)
-    result = []
-    while q:  ## while반복문과 for i in q 반복문으로 o(n^2)
-        sec = 0
-        price = q.popleft()
-        ## q가 비어있는 경우, 반복문 자체가 실행되지 않아 바로result.append(sec)가 실행됨
-        for i in q:
-            if price <= i:
-                sec += 1
-            else:
-                sec += 1
-                break
+def solution(c):
+    for n, t in c:
+        if t not in dict:
+            dict[t] = 1
+        else:
+            dict[t] += 1
 
-        result.append(sec)
-    return result
+    result = 1
+    for i in dict:
+        result *= (dict[i] + 1)
+
+    return result - 1
 
 
-print(solution(prices))
+print(solution(c))
 
-# 2. stack과 -1
-
-
-# 3. 반복문
-def solution3(p):
-    ## 리스트 인덱싱을 통해 값을 누적시킬 수 : 조건에 해당하는 갯수 구하기
-    result = [0] * len(p)
-    for i in range(len(p)):
-        for j in range(i + 1, len(p)):
-            if p[i] <= p[j]:
-                result[i] += 1
-            else:
-                result[i] += 1
-                break
-    return result
+# 1-1. dict.get(값, 초기값)을 사용하여 맨 처음 발생할수 있는 키에러 방지
+dic = {}
 
 
-print(solution3(prices))
+def solution2(c):
+    for n, t in c:
+        dic[t] = dic.get(t, 0) + 1
+
+    result = 1
+    for i in dic:
+        result *= (dic[i] + 1)
+
+    return result - 1
+
+
+print(solution2(c))
+
+# 2. Counter() : dict의 구조
+from collections import Counter
+
+
+def solution3(c):
+    counter = Counter([t for n, t in c])
+
+    result = 1
+    for i in counter:
+        result *= (counter[i] + 1)
+
+    return result - 1
+
+
+print(solution3(c))
