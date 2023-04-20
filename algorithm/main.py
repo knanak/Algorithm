@@ -1,47 +1,28 @@
 '''
-동일한 숫자카드를 몇 개 가지고 있는가
-10
-6 3 2 10 10 10 -10 -10 7 3
-8
-10 9 -5 2 3 4 5 -10
-
-정답 : 3 0 0 1 2 0 0 2
+랜선 자르기
+k개의 랜선을 동일한 길이로 잘라 n개의 랜선을 만들 때, 최대길이는?
 '''
 
 from sys import stdin
 
-_ = stdin.readline()
-n = list(map(int, stdin.readline().split()))
-_ = stdin.readline()
-m = list(map(int, stdin.readline().split()))
+k, n = map(int, stdin.readline().split())
+kList = [int(stdin.readline()) for _ in range(k)]
 
-# 1. counter(list)
-from collections import Counter
+st = 1  # 랜선의 최 길이
+end = max(kList)
 
-c = Counter(n)
+while st <= end:
+    mid = (st + end) // 2
+    ##count는 각 반복문마다 초기화되야 하므로 while문 안에 선언
+    count = 0
 
-result = []
-for i in m:
-    if i in c:
-        result.append(c[i])
+    for i in range(k):
+        count += kList[i] // mid
+
+    ## mid+1되는 조건에 >=이 붙어 while의 종료조건을 설정
+    if count >= n:
+        st = mid + 1
     else:
-        result.append(0)
+        end = mid - 1
 
-print(' '.join(map(str, result)))
-
-# 2. dict
-dic = {}
-for i in n:
-    if i not in dic:
-        dic[i] = 1
-    else:
-        dic[i] += 1
-
-result2 = []
-for i in m:
-    if i in dic:
-        result2.append(dic[i])
-    else:
-        result2.append(0)
-
-print(' '.join(map(str, result2)))
+print(end)
