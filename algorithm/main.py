@@ -1,42 +1,33 @@
 '''
-이진탐색은 
-1. "찾는 값"이 무엇인지를 파악해 return 값으로 설정하고, 이를 기준으로 start, end, mid를 설정한다. 
-2. 찾는 값이 명확한 경우, 재귀함수를 통해 찾고, 
-  찾는 값이 명확하지 않은 경우(trial and error 하면서 찾아야 하는 경우),    while 반복문을 통해 찾는다.
-
-이진탐색의 조건
-1. 정렬
-2. start, end 설정 -> mid
-3. 재귀 or while : 찾는 값이 명확하냐 or 명확x
-4. 종료조건 : st=end or st<=end 동안에는 반복하고, 그외에는 반복문 탈출
-'''
-'''
-입국심사 시 걸리는 시간이 최소가 되도록
+문제를 가장 많이 맞힌 사람은?
 '''
 
-n = 6
-times = [7, 10]
-## 정답 : 28
+a = [1, 3, 2, 4, 2]  # 정답 : [1,2,3]
 
 
-def solution(n, times):
-    st, end = 1, max(times) * n
-    res = end  # 총 심사시 걸리는 최소 시간
+def solution(a):
+    n1 = [1, 2, 3, 4, 5]
+    n2 = [2, 1, 2, 3, 2, 4, 2, 5]
+    n3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+    r = [0] * 3
 
-    while st <= end:
-        mid = (st + end) // 2
-        people = 0
+    for idx, i in enumerate(a):
+        if i == n1[idx % len(n1)]:
+            # 리스트의 인덱스를 통해 특정 조건이 만족한 경우의 수를 누적
+            r[0] += 1
 
-        for t in times:  # 면접관마다 심사시 걸리는 시간
-            people += mid // t  # 총시간//면접관 당 시간
+        if i == n1[idx % len(n2)]:
+            r[1] += 1
 
-        if people < n:
-            st = mid + 1
-        else:
-            end = mid - 1
-            res = min(res, mid)
+        if i == n1[idx % len(n3)]:
+            r[2] += 1
 
-    return res
+    k = []
+    for idx, i in enumerate(r):
+        if i == max(r):
+            k.append(idx + 1)
+
+    return k
 
 
-print(solution(n, times))
+print(solution(a))
