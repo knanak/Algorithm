@@ -1,48 +1,48 @@
 '''
-카펫의 가로 > 세로 구하기
-ⓐ 총 너비와 가로, 세로길이의 관계는 배수, 약수 관계이다.
-ⓑ 기준(미지수)를 뭘로 설정할지 정하기
+구명보트를 최소한으로 이용하기 위해서는 최대+최소 값을 기준으로 찾아야 한다.
 '''
-brown = 8
-yellow = 1  # 정답 : [3, 3]
+people = [70, 80, 50]
+limit = 100
+# 답 :3
+
+# 1. deque
+from collections import deque
 
 
-# 1. 나머지와 몫을 사용. 총 너비의 가로와 세로 길이를 기준으로 삼음
-def solution(b, y):
-    size = b + y
-    for i in range(3, b):  # 샌드위치 구조가 되려면 세로 3개가 필요
-        if size % i == 0:
-            j = size // i
-            if (i - 2)(j - 2) == y:
-                return sorted([i, j], reverse=True)
+def solution(p, limit):
+    p = deque(sorted(p))
+    boat = 0
+
+    while len(p) >= 2:  # 보트에 최소 2명이 남은 경우까지 반복
+
+        if p[0] + p[-1] <= limit:
+            boat += 1
+            p.pop()
+            p.popleft()
+        else:
+            boat += 1
+            p.pop()
+
+    if p:  # 보트에 1명이 남는 경우
+        boat += 1
+
+    return boat
 
 
-print(solution(brown, yellow))
+print(solution(people, limit))
 
 
-# 2. while 문으로 약수관계 구하기. yellow의 가로와 세로 길이를 기준으로
-def solution2(b, y):
-    def brown(v, h):
-        return 2 (v + h) + 4
-
-    v, h = 0, y
-    while v <= h:
-        v += 1
-        h = y // v
-        if brown(v, h) == brown:
-            return [h + 2, v + 2]
-
-
-print(solution2(brown, yellow))
+# 2. 투 포인터
+def solution2(people, limit):
+    people.sort()
+    cnt = 0
+    left, right = 0, len(people) - 1
+    while left < right:
+        if people[left] + people[right] <= limit:
+            left += 1
+            cnt += 1
+        right -= 1
+    return len(people) - cnt
 
 
-# 3. 둘레의 길이. yellow의 가로와 세로 길이를 기준으로
-def solution3(b, y):
-    for i in range(3, int(y**0.5) + 1):
-        if y % i == 0:
-            j = y // i
-            if 2 (i + j) + 4 == b:
-                return [j + 2, i + 2]
-
-
-print(solution3(brown, yellow))
+print(solution2(people, limit))
