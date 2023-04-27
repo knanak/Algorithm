@@ -1,48 +1,34 @@
-'''
-구명보트를 최소한으로 이용하기 위해서는 최대+최소 값을 기준으로 찾아야 한다.
-'''
-people = [70, 80, 50]
-limit = 100
-# 답 :3
+from sys import stdin
 
-# 1. deque
-from collections import deque
+n, k = map(int, stdin.readline().split())
+days = list(map(int, stdin.readline().split()))
+d = []
+# 1. 반복문 + sum()
+for i in range(n - k):
+    d.append(sum(days[i:i + k]))
 
+print(max(d))
 
-def solution(p, limit):
-    p = deque(sorted(p))
-    boat = 0
+# 2. while + sum()
+x, y = 0, k
+while y <= n:
+    d.append(sum(days[x:y]))
+    x += 1
+    y += 1
 
-    while len(p) >= 2:  # 보트에 최소 2명이 남은 경우까지 반복
+print(max(d))
 
-        if p[0] + p[-1] <= limit:
-            boat += 1
-            p.pop()
-            p.popleft()
-        else:
-            boat += 1
-            p.pop()
+# 3. 투 포인터
+result = 0
+for i in range(k):
+    result += days[i]
+max_t = result  # 예전 result
 
-    if p:  # 보트에 1명이 남는 경우
-        boat += 1
+x, y = 0, k
+while y <= n - 1:
+    result = result + days[y] - days[x]  # 현재 result
+    max_t = max(max_t, result)
+    x += 1
+    y += 1
 
-    return boat
-
-
-print(solution(people, limit))
-
-
-# 2. 투 포인터
-def solution2(people, limit):
-    people.sort()
-    cnt = 0
-    left, right = 0, len(people) - 1
-    while left < right:
-        if people[left] + people[right] <= limit:
-            left += 1
-            cnt += 1
-        right -= 1
-    return len(people) - cnt
-
-
-print(solution2(people, limit))
+print(max_t)
