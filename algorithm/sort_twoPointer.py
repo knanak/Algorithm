@@ -17,7 +17,7 @@ for i in a:
 
 print(int(cnt / 2))
 
-#2. 정렬후, 투포인터 사용
+#2. 정렬후, 투포인터 사용 : 기준이 st
 a.sort()
 st, end, cnt = 0, n - 1, 0
 while st < end:
@@ -28,5 +28,19 @@ while st < end:
         st += 1
     else:
         end -= 1
+
+print(cnt)
+
+# 2-1. 투포인터의 기준이 end
+a.sort()
+st, end, cnt = 0, n - 1, 0
+while st < end:
+    tmp = a[st] + a[end]
+    if tmp == x:
+        cnt += 1
+    elif tmp < x:
+        st += 1
+        continue
+    end -= 1
 
 print(cnt)
