@@ -1,39 +1,35 @@
-from sys import stdin
 
-n, m = map(int, stdin.readline().split())
-map = [list(map(int, stdin.readline().split())) for _ in range(n)]
+from collections import deque
 
-visit = [[False] * m for _ in range(n)]
+n, k = map(int, input().split()) 
+q = deque([n])
+time = [-1]*100001
+time[n] = 0
 
-dy = [0, 1, 0, -1]
-dx = [1, 0, -1, 0]
+while q:
+    s = q.popleft()
+    if s == k:
+        print(time[s])
+        break
 
-
-def bfs(y, x):
-    result = 1
-    q = [(y, x)]
-    while q:
-        ey, ex = q.pop()
-        for i in range(4):
-            ny = ey + dy[i]
-            nx = ex + dx[i]
-            if 0 <= ny < n and 0 <= nx < m:
-                if map[ny][nx] == 1 and visit[ny][nx] == False:
-                    result += 1
-                    visit[ny][nx] = True
-                    q.append((ny, nx))  #새로 방문한 노드를 추가
-
-    return result
-
-
-cnt, maxv = 0, 0  # 그림의 갯수, 그림의 넓이
-for j in range(n):
-    for i in range(m):
-        if map[j][i] == 1 and visit[j][i] == False:
-            visit[j][i] = True
-            cnt += 1
-            #그림의 넓이인 result를 bfs()와 비교하며 최대값으로 갱신
-            maxv = max(maxv, bfs(j, i))
-
-print(cnt)
-print(maxv)
+    for i in [2*s, s-1, s+1]:
+      if 0 <= i < 100001 and time[i]==-1:
+        if i==2*s:
+          time[i]=time[s]
+          q.appendleft(i)
+        else :
+          time[i]=time[s]+1
+          q.append(i)
+          
+    # if 0 <= s-1 < 100001 and visited[s-1] == -1:
+    #     visited[s-1] = visited[s] + 1
+    #     q.append(s-1)
+      
+    # if 0 < s*2 < 100001 and visited[s*2] == -1:
+    #     visited[s*2] = visited[s]
+    #     # 2*s 가 다른 연산보다 더 높은 우선순위를 가지기 위함
+    #     q.appendleft(s*2)  
+      
+    # if 0 <= s+1 < 100001 and visited[s+1] == -1:
+    #     visited[s+1] = visited[s] + 1
+    #     q.append(s+1)
