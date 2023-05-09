@@ -1,34 +1,38 @@
-from collections import deque
+from sys import stdin
 
-n, k = map(int, input().split())
-q = deque([n])
-time = [-1] * 100001
-time[n] = 0
+n = int(input())
+x = [list(map(int, stdin.readline().rstrip())) for _ in range(n)]
+v = [[False] * n for _ in range(n)]
+each = 0
+result = []
 
-while q:
-    s = q.popleft()
-    if s == k:
-        print(time[s])
-        break
+dy = [1, 0, -1, -0]
+dx = [0, 1, 0, -1]
+print(x[0][1])
+print(v[0][1])
 
-    for i in [2 * s, s - 1, s + 1]:
-        if 0 <= i < 100001 and time[i] == -1:
-            if i == 2 * s:
-                time[i] = time[s]
-                q.appendleft(i)
-            else:
-                time[i] = time[s] + 1
-                q.append(i)
 
-    # if 0 <= s-1 < 100001 and visited[s-1] == -1:
-    #     visited[s-1] = visited[s] + 1
-    #     q.append(s-1)
+def dfs(y, x):
+    global each
+    each += 1
+    for i in range(4):
+        ny = y + dy[i]
+        nx = x + dx[i]
+        if 0 <= nx < n and 0 <= ny < n:
+            if x[ny][nx] == 1 and v[ny][nx] == False:
+                v[ny][nx] == True
+                dfs(ny, nx)
 
-    # if 0 < s*2 < 100001 and visited[s*2] == -1:
-    #     visited[s*2] = visited[s]
-    #     # 2*s 가 다른 연산보다 더 높은 우선순위를 가지기 위함
-    #     q.appendleft(s*2)
 
-    # if 0 <= s+1 < 100001 and visited[s+1] == -1:
-    #     visited[s+1] = visited[s] + 1
-    #     q.append(s+1)
+for j in range(n):
+    for i in range(n):
+        if x[j][i] == 1 and v[j][i] == False:
+            v[j][i] = True
+            each = 0
+            dfs(j, i)  # -> each(1로 연결된 갯수)가 나오게됨
+            result.append(each)
+
+result.sort()
+print(len(result))
+for i in result:
+    print(i)
