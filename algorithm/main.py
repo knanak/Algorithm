@@ -1,50 +1,22 @@
-'''타겟넘버 : numbers로 target을 만들 수 있는 경우의 수'''
-
-# 1. bfs : 형제노드부터 방문
-from collections import deque
-
-
-def solution(numbers, target):
-    answer = 0
-    q = deque()
-    q.append([numbers[0], 0])
-    q.append([-1 * numbers[0], 0])
-
-    while q:
-        result, idx = q.popleft()
-        idx += 1
-        if idx < len(numbers):
-            q.append([result + numbers[idx], idx])
-            q.append([result - numbers[idx], idx])
-
-        elif idx == len(numbers):
-            if result == target:
-                answer += 1
-
-    return answer
+'''
+게임맵 최단거리
+'''
 
 
-print(solution([4, 1, 2, 1], 4))
-
-# 2. dfs : 자식노드의 끝까지 먼저 방문
-answer = 0
-
-
-def dfs(numbers, target, idx, result):
-    global answer
-    if idx == len(numbers) and result == target:
-        answer += 1
-        return
-    elif idx == len(numbers):
-        return
-
-    dfs(numbers, target, idx + 1, result + numbers[idx])
-    dfs(numbers, target, idx + 1, result - numbers[idx])
-
-
-def solution2(numbers, target):
-    dfs(numbers, target, 0, 0)
-    return answer
-
-
-print(solution2([4, 1, 2, 1], 4))
+def solution_bfs(maps):
+    from collections import deque
+    n, m = len(maps), len(maps[0])
+    # (n-1, m-1)에 도달하지 못하는 경우, -1출력해야 하므로, 기본값을 -1로 설정
+    visited = [[-1 for _ in range(m)] for _ in range(n)]
+    visiting = deque([(0, 0)])
+    visited[0][0] = 1
+    dx, dy = [-1, 1, 0, 0], [0, 0, 1, -1]
+    while visiting:
+        x, y = visiting.popleft()
+        for i in range(4):
+            xx, yy = x + dx[i], y + dy[i]
+            if 0 <= xx < n and 0 <= yy < m and maps[xx][yy] == 1 and visited[
+                    xx][yy] == -1:
+                visited[xx][yy] = visited[x][y] + 1
+                visiting.append((xx, yy))
+    return visited[n - 1][m - 1]
