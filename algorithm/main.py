@@ -1,27 +1,29 @@
-'''여행경로
 '''
+네트워크
+'''
+computers= [[1, 1, 0], 
+            [1, 1, 0], 
+            [0, 0, 1]]
+n=len(computers)
+
+#1. dfs : 컴퓨터에 연결된 네트워크를 모두 찾은 후, 다음 컴퓨터로 넘어가야 되므로 dfs가 적합
+def solution(n, computers):
+    answer = 0
+    visited = [False for i in range(n)]
+    for com in range(n):
+        if visited[com] == False:
+            DFS(n, computers, com, visited)
+            answer += 1 
+    return answer
+
+def DFS(n, computers, com, visited):
+    visited[com] = True
+    for connect in range(n):
+        if connect != com and computers[com][connect] == 1: 
+            if visited[connect] == False:
+                DFS(n, computers, connect, visited)
+      
+        
+print(solution(n, computers))
 
 
-#1. dfs
-def solution(tickets):
-    answer = []
-
-    visited = [False] * len(tickets)
-
-    def dfs(airport, path):
-        if len(path) == len(tickets) + 1:
-            answer.append(path)
-            return
-
-        for idx, ticket in enumerate(tickets):
-            if airport == ticket[0] and visited[idx] == False:
-                visited[idx] = True
-                dfs(ticket[1], path + [ticket[1]])
-                # idx를 돌면서, 해당하는 값을 모두 찾을 수 있도록 False
-                visited[idx] = False
-
-    dfs("ICN", ["ICN"])
-
-    answer.sort()
-
-    return answer[0]
