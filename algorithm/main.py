@@ -1,26 +1,20 @@
-import os, sys
+'''
+피로도. 전체 n의 갯수가 많지 않을 경우, 완전 탐색 가능성
+'''
+from itertools import permutations
+def solution(k,d):
+  answer=0
+  for pm in permutations(d, len(d)):
+    hp=k
+    cnt=0
 
+    for p in pm:
+      if hp >= pm[0]:
+        hp-=pm[1]
+        cnt+=1
 
-def check_argv():
-  if len(sys.argv) == 3:
-    return True
-  else:
-    print('실행파일명 password 7zfile')
-    exit()
+    if cnt > answer :
+      answer=cnt  
 
+  return answer
 
-def crack():
-  f = open(sys.argv[1], 'r')
-  lines = f.read().splitlines()
-  for line in lines:
-    x = os.system('7z x {} -p{} -bsp0 -bso0 -bse0 -y'.format(
-      sys.argv[2], line))
-    if x == 0:
-      print("pwd is : " + line)
-      exit(1)
-  print('not found')
-
-
-if __name__ == '__main__':
-  if check_argv() == True:
-    crack()
