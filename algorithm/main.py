@@ -58,14 +58,27 @@ n과 m (3) : 1~n까지 m개를 뽑되, 같은 수를 뽑아도 됨
 n,m=map(int, input().split())
 result=[]
 
-def back3():
-  if len(result)==m:
+# def back3():
+#   if len(result)==m:
+#     print(' '.join(map(str, result)))
+#     return
+
+#   for i in range(1, n+1):
+#     result.append(i)
+#     back3()
+#     result.pop()
+
+# back3()
+
+
+def back4(st):
+  if len(result)== m :
     print(' '.join(map(str, result)))
     return
 
-  for i in range(1, n+1):
+  for i in range(st, n+1):
     result.append(i)
-    back3()
+    back4(i)
     result.pop()
 
-back3()
+back4(1)
