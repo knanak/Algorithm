@@ -55,8 +55,6 @@
 n과 m (3) : 1~n까지 m개를 뽑되, 같은 수를 뽑아도 됨
 '''
 
-n,m=map(int, input().split())
-result=[]
 
 # def back3():
 #   if len(result)==m:
@@ -71,14 +69,36 @@ result=[]
 # back3()
 
 
-def back4(st):
-  if len(result)== m :
-    print(' '.join(map(str, result)))
+# def back4(st):
+#   if len(result)== m :
+#     print(' '.join(map(str, result)))
+#     return
+
+#   for i in range(st, n+1):
+#     result.append(i)
+#     back4(i)
+#     result.pop()
+
+# back4(1)
+
+'''
+n과 m 5 : n의 수가 따로 주어짐
+'''
+
+n,m=map(int, input().split())
+mList=list(map(int, input().split()))
+mList.sort()
+result=[]
+
+def back5():
+  if len(result)==m:
+    print(" ".join(map(str, result)))
     return
 
-  for i in range(st, n+1):
-    result.append(i)
-    back4(i)
-    result.pop()
+  for i in mList :
+    if i not in result :
+      result.append(i)
+      back5()
+      result.pop()
 
-back4(1)
+back5()
