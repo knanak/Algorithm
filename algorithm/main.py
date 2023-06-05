@@ -1,62 +1,26 @@
-# '''
-# 암호 만들기 : c개 중 최소 한개의 모음 + 최소 두개의 자음으로 n번째로 구성된 암호 만들기
-# '''
+'''
+차이를 최대로
+'''
 
-# n,c=map(int, input().split())
-# cList=list(map(str, input().split()))
-# cList.sort()
-# result=[]
-# v=['a', 'e', 'i', 'o', 'u']
+n=int(input())
+nList=list(map(int, input().split())) 
+result=[]  ## ## nList의 요소가 들어옴
+sum_max = []
 
-# def back(st):
-#   if len(result)== n:
-#     cnt=0
-#     for i in range(n):
-#       if result[i] in v:
-#         cnt+=1
-#         if cnt != n :
-#           print(''.join(result))
-#           return
+def back(st): ## 인자로는 인덱스가 들어옴
+  if len(result)==n:
+    summ=0
+    for i in range(len(result)-1):
+      summ+=abs(result[i]-result[i+1])
+      
+    sum_max.append(summ)
+    return
 
+  for i in range(st, n):
+    result.append(nList[i])
+    back(i+1)
+    result.pop()
+    print(result)
 
-#   for i in range(st, c) :
-#     result.append(cList[i])
-#     back(i+1)
-#     result.pop()
-
-# back(0)
-
-import sys
-
-
-def back_tracking(idx):
-
-    # 암호를 만들었을 때
-    if len(answer) == l:
-        # 모음, 자음 체크
-        vo, co = 0, 0
-
-        for i in answer :
-            if i in consonant:
-                vo += 1
-            else:
-                co += 1
-
-        # 모음 1개 이상, 자음 2개 이상
-        if vo >= 1 and co >= 2:
-            print("".join(answer))
-
-        return
-
-    # 반복문을 통해 암호를 만든다.
-    for i in range(idx, c):
-        answer.append(words[i])
-        back_tracking(i + 1) # 백트래킹
-        answer.pop()
-
-
-l, c = map(int, sys.stdin.readline().split())
-words = sorted(list(map(str, sys.stdin.readline().split())))
-consonant = ['a', 'e', 'i', 'o', 'u']
-answer = []
-back_tracking(0)
+back(0)
+print(max(sum_max))
